@@ -1,63 +1,115 @@
+const mongoose = require('mongoose');
 const filmModel = require("../Models/film");
-const filmDatabase = require("../Storage/filmDb");
+//const filmDatabase = require("../Storage/filmDb");
 
 
-let database = new filmDatabase();
 
-class FilmController {
-
-    constructor() {
-
-    }
-
+let filmController = {
     //METODOS CRUD
+
 
     //CREATE -C- Dar de alta
 
     async createFilm(req, res) {
+        const body = req.body;
+        try {
+            const createdFilm = await Film.create(body);
+            res
+                .status(201)
+                .json(createdFilm);
+        } catch (err) {
+            res
+                .status(500)
+                .json({
+                    message: err
+                });
+        }
+    },
 
-        let body = req.body;
+    //READ -R- Traer una pelicula
+    async bringFilm(req, res) {
+        const _id = req.params.id;
 
         try {
+            const films = await Film.findOne({ _id });
+            res
+                .status(200)
+                .json(films);
 
-            let film = new filmModel(body.id, body.title, body.year, body.description, body.image, body.genre, body.adult);
-
-            let seteo = await database.set(film);
-
-            if (seteo) {
-                res.send("Bien!!!!!!!! hemos guardado");
-            }
-
-        } catch {
-            console.log("error!");
+        } catch (error) {
+            res.status(400)
+                .json({
+                    message: err
+                });
         }
-
-
-        return
-    }
-
-    //READ -R- Traernos datos
+    },
+    //READ -R- Traer todas las peliculas
 
     async bringFilms(req, res) {
         try {
-            let getting = await database.get();
-
-            if (getting) {
-                res.send(getting)
-            }
+            const films = await Film.find();
+            res
+                .status(200)
+                .json(films);
         } catch (error) {
-            console.log(error)
+            res
+                .status(400)
+                .json({
+                    message: err
+                });
         }
-    }
+
+    },
 
     //UPDATE -U- Modificar datos
+
+    async updateFilm(req, res) {
+        const _id = req.params.id;
+        const body = req.body;
+        try {
+            const updatedFilm = await Film.findByIdAndUpdate(
+                _id,
+                body, { new: true });
+            if (!updatedFilm) {
+                return res.status(404).json({
+                    message: err
+                })
+            }
+            res.status(200)
+                .json(updatedFilm)
+        } catch (err) {
+            res
+                .status(500)
+                .json({
+                    message: err
+                })
+        }
+    },
 
 
 
     //DELETE -D- Borrar datos
+    async deleteFilm(req, res) {
+        const _id = req.params.id;
+        try {
+            const removedFilm = await Film.findByIdAndDelete({ _id });
+            if (!removedFilm) {
+                return res.status(404).json({
+                    message: err
+                })
+            }
+            res.json(removedFilm)
+        } catch (err) {
+            res
+                .status(400)
+                .json({
+                    message: err
+                })
+        }
+    },
+
 
 }
 
-
-let filmController = new FilmController;
+//let filmController = new FilmController;
 module.exports = filmController;

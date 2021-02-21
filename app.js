@@ -2,8 +2,6 @@ const express = require("express");
 const filmController = require("./Controllers/filmController");
 const mongoose = require("./db");
 
-
-
 const app = express();
 
 const port = 3000;
@@ -27,11 +25,11 @@ app.use("/pelicula", filmRouter);
 
 // Enrutador de usuarios con el recurso /user
 
-app.use("/user", userRouter);
+//app.use("/user", userRouter);
 
 // Enrutador de pedidos con el recurso /order
 
-app.use("/order", orderRouter);
+//app.use("/order", orderRouter);
 
 
 

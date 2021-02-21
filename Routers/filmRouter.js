@@ -7,16 +7,22 @@ const filmController = require("../Controllers/filmController");
 
 //Endpoint para guardar una película
 
-router.post('/saveFilm', async(req, res) => {
-    const body = req.body;
-    res.json(await filmController.createFilm(body))
-});
+router.post('/saveFilm', filmController.createFilm);
 
 //Endpoint para traer las películas
 
-router.get('/allFilms', async(req, res) => {
-    res.json(await filmController.bringFilms)
-});
+router.get('/getFilm/:id', filmController.bringFilm);
+router.get('/allFilms', filmController.bringFilms);
+
+//Endpoint para modificar las películas
+
+router.put('/updateFilm/:id', filmController.updateFilm);
+
+//Endpoint para borrar las películas
+
+router.delete('/deleteFilm/:id', filmController.deleteFilm);
+
+
 
 
 module.exports = router;
