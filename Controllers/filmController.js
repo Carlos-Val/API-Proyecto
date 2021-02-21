@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const filmModel = require("../Models/film");
-//const filmDatabase = require("../Storage/filmDb");
+const film = require("../Models/film");
+
 
 
 
@@ -13,7 +13,7 @@ let filmController = {
     async createFilm(req, res) {
         const body = req.body;
         try {
-            const createdFilm = await Film.create(body);
+            const createdFilm = await film.create(body);
             res
                 .status(201)
                 .json(createdFilm);

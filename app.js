@@ -1,5 +1,5 @@
 const express = require("express");
-const filmController = require("./Controllers/filmController");
+const filmRouter = require("./Routers/filmRouter");
 const mongoose = require("./db");
 
 const app = express();
@@ -9,7 +9,7 @@ const port = 3000;
 
 // Importacion de rutas
 
-let filmRouter = require('./routers/filmRouter');
+
 let userRouter = require('./routers/userRouter');
 let orderRouter = require('./routers/orderRouter');
 
@@ -21,7 +21,7 @@ app.use(express.json());
 
 //Enrutador de peliculas con el recurso /pelicula
 
-app.use("/pelicula", filmRouter);
+app.use(filmRouter);
 
 // Enrutador de usuarios con el recurso /user
 
@@ -32,5 +32,8 @@ app.use("/pelicula", filmRouter);
 //app.use("/order", orderRouter);
 
 
-
-app.listen(port, () => console.log(`Listening at ${port}`));
+db
+    .then(() => {
+        app.listen(port, () => console.log(`Listening at ${port}`));
+    })
+    .catch((err) => console.log(err.message));
