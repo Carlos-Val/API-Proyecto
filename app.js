@@ -31,9 +31,7 @@ app.use(filmRouter);
 
 //app.use("/order", orderRouter);
 
-
-db
-    .then(() => {
-        app.listen(port, () => console.log(`Listening at ${port}`));
-    })
-    .catch((err) => console.log(err.message));
+const conectionDb = require("./db");
+conectionDb.then(() => {
+    app.listen(port, () => console.log(`Listening at ${port}`));
+});

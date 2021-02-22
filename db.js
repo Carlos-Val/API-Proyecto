@@ -14,9 +14,9 @@ const QUERY_STRING = MONGO_USER ?
 
 
 
-const db = mongoose.connect(QUERY_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(console.log("conexion establecida"))
-    //.cacth(error => console.error(error));
+const conectionDb = mongoose.connect(QUERY_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("Conexion Establecida");
+    }).catch(error => console.log(error.message));
 
-
-module.exports = db;
+module.exports = conectionDb;
