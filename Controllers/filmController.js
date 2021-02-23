@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const film = require("../Models/film");
+const Film = require("../Models/film");
 
 
 
@@ -12,8 +12,10 @@ let filmController = {
 
     async createFilm(req, res) {
         const body = req.body;
+
         try {
-            const createdFilm = await film.create(body);
+
+            const createdFilm = await Film.create(body);
             res
                 .status(201)
                 .json(createdFilm);
@@ -26,12 +28,12 @@ let filmController = {
         }
     },
 
-    //READ -R- Traer una pelicula
+    //READ -R- Traer una pelicula por ID
     async bringFilm(req, res) {
         const _id = req.params.id;
 
         try {
-            const films = await Film.findOne({ _id });
+            const films = await Film.findById({ _id });
             res
                 .status(200)
                 .json(films);
@@ -42,6 +44,24 @@ let filmController = {
                     message: err
                 });
         }
+    },
+
+    //READ -R-Traer una película por título
+
+    async bringFilmTitle(req, res) {
+        try {
+            const films = await Film.find({ title });
+            res
+                .status(200)
+                .json(films);
+        } catch (error) {
+            res
+                .status(400)
+                .json({
+                    message: err
+                });
+        }
+
     },
     //READ -R- Traer todas las peliculas
 
@@ -60,6 +80,8 @@ let filmController = {
         }
 
     },
+
+
 
     //UPDATE -U- Modificar datos
 
