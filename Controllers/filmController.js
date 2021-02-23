@@ -49,8 +49,12 @@ let filmController = {
     //READ -R-Traer una película por título
 
     async bringFilmTitle(req, res) {
+
         try {
-            const films = await Film.find({ title });
+            const title = req.params.title;
+            const films = await Film.findOne({
+                title: title
+            });
             res
                 .status(200)
                 .json(films);

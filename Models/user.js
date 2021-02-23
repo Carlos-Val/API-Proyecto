@@ -22,13 +22,13 @@ let userSchema = new Schema({
     },
     email: {
         type: String,
-        required: true,
-        default: "eixample@eixample.com",
+        //required: true,
+        //default: "eixample@eixample.com",
     },
     creationDate: {
         type: Date,
-        required: true,
-        default: new Date,
+        //required: true,
+        //default: new Date,
     },
     payment: {
         type: String,

@@ -1,62 +1,120 @@
-//const userDatabase = require("../storage/userDb");
-const userModel = require('../models/user');
+const mongoose = require('mongoose');
+const User = require('../Models/user');
 
 
-let database = new userDatabase();
 
 
-class UserController {
-
-    constructor() {
-
-    }
+let userController = {
+    //METODOS CRUD
 
 
-    //MÉTODOS CRUD 
-    //CREATE -C- Dar un alta
+    //CREATE -C- Dar de alta usuario
 
-    async registerUser(req, res) {
-        //funcion controladora con la lógica que registra al usuario
+    async createUser(req, res) {
+        const body = req.body;
 
         try {
-            let user = new userModel(body.name, body.surname, body.idUser, body.dni, body.email, body.password, body.phone, body.address, body.payment);
 
-            let seteo = await database.set(user);
-
-            if (seteo) {
-                res.send("Bien!!! hemos guardado usuario");
-            }
-        } catch {
-            console.log("error en usuario");
+            const createdUser = await User.create(body);
+            res
+                .status(201)
+                .json(createdUser);
+        } catch (err) {
+            res
+                .status(500)
+                .json({
+                    message: err
+                });
         }
-        return
-    }
+    },
 
-    //READ -R- Traernos datos
-
+    //READ -R- Traer un usuario por ID
     async bringUser(req, res) {
-        //función controladora con la lógica que muestra los usuarios
-    }
+        const _id = req.params.id;
 
-    async bringUserId(req, res) {
-        //función controladora con la lógica que trae un usuario según su id
-    }
+        try {
+            const users = await User.findById({ _id });
+            res
+                .status(200)
+                .json(users);
 
-    //UPDATE -U- Modificar datos
+        } catch (error) {
+            res.status(400)
+                .json({
+                    message: err
+                });
+        }
+    },
+
+
+    //READ -R- Traer todos los usuarios
+
+    async bringUsers(req, res) {
+        try {
+            const users = await User.find();
+            res
+                .status(200)
+                .json(users);
+        } catch (error) {
+            res
+                .status(400)
+                .json({
+                    message: err
+                });
+        }
+
+    },
+
+
+
+    //UPDATE -U- Modificar datos de ususario
 
     async updateUser(req, res) {
-        //función controladora con la lógica que actualiza un usuario
-    }
+        const _id = req.params.id;
+        const body = req.body;
+        try {
+            const updatedUser = await User.findByIdAndUpdate(
+                _id,
+                body, { new: true });
+            if (!updatedUser) {
+                return res.status(404).json({
+                    message: err
+                })
+            }
+            res.status(200)
+                .json(updatedUser)
+        } catch (err) {
+            res
+                .status(500)
+                .json({
+                    message: err
+                })
+        }
+    },
 
 
-    //DELETE -D- Borrar datos
 
+    //DELETE -D- Borrar usuarios
     async deleteUser(req, res) {
-        //función controladora con la lógica que elimina un usuario
-    }
+        const _id = req.params.id;
+        try {
+            const removedUser = await User.findByIdAndDelete({ _id });
+            if (!removedUser) {
+                return res.status(404).json({
+                    message: err
+                })
+            }
+            res.json(removedUser)
+        } catch (err) {
+            res
+                .status(400)
+                .json({
+                    message: err
+                })
+        }
+    },
+
 
 }
 
-
-let userController = new UserController;
 module.exports = userController;

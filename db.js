@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-//const ObjectId = mongoose.Types.ObjectId;
-
 
 const MONGO_HOST = process.env.MONGO_HOST || "localhost";
 const MONGO_PORT = process.env.MONGO_PORT || "27017";
