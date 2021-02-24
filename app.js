@@ -1,6 +1,7 @@
 const express = require("express");
 const filmRouter = require("./Routers/filmRouter");
 const userRouter = require("./Routers/userRouter");
+const orderRouter = require("./Routers/orderRouter");
 const mongoose = require("./db");
 
 const app = express();
@@ -12,7 +13,7 @@ const port = 3000;
 
 
 
-let orderRouter = require('./routers/orderRouter');
+
 
 // Middlewares
 
@@ -30,7 +31,7 @@ app.use(userRouter);
 
 // Enrutador de pedidos con el recurso /order
 
-//app.use("/order", orderRouter);
+app.use(orderRouter);
 
 const conectionDb = require("./db");
 conectionDb.then(() => {

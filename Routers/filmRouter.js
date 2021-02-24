@@ -13,7 +13,8 @@ router.post('/saveFilm', filmController.createFilm);
 
 router.get('/getFilm/:id', filmController.bringFilm);
 router.get('/allFilms', filmController.bringFilms);
-router.get('/getFilmos/:title', filmController.bringFilmTitle);
+router.get('/getOneFilm/:title', filmController.bringFilmTitle);
+
 
 //Endpoint para modificar las películas
 

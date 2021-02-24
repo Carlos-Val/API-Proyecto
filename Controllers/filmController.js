@@ -10,6 +10,7 @@ let filmController = {
 
     //CREATE -C- Dar de alta
 
+
     async createFilm(req, res) {
         const body = req.body;
 
@@ -48,12 +49,13 @@ let filmController = {
 
     //READ -R-Traer una película por título
 
-    async bringFilmTitle(req, res) {
 
+    async bringFilmTitle(req, res) {
+        const title = req.params.title;
         try {
-            const title = req.params.title;
+
             const films = await Film.findOne({
-                title: title
+                "title": title
             });
             res
                 .status(200)
@@ -67,6 +69,10 @@ let filmController = {
         }
 
     },
+
+
+
+
     //READ -R- Traer todas las peliculas
 
     async bringFilms(req, res) {
